@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Form</title>
+</head>
+<body>
+  <h2>Contact Us</h2>
+  <form id="contactForm">
+    <input type="text" name="name" placeholder="Your Name" required /><br>
+    <input type="email" name="email" placeholder="Your Email" required /><br>
+    <input type="text" name="phone" placeholder="Phone Number" required /><br>
+    <textarea name="feedback" placeholder="Your Feedback" required></textarea><br>
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    document.getElementById("contactForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const formData = new FormData(e.target);
+
+      const data = {
+        name: formData.get("name"),
+        email: formData.get("email"),
+        phone: formData.get("phone"),
+        feedback: formData.get("feedback")
+      };
+
+      fetch("https://script.google.com/macros/s/AKfycbwaL2sNULMlWWAb4c_iNJl9zm4aDWMNAPy2VyFNQmKIxFsBr2FSxb77x1lSNFhqa79s/exec", {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data)
+      });
+
+      alert("Thank you! Your response has been submitted.");
+      e.target.reset();
+    });
+  </script>
+</body>
+</html>
