@@ -18,9 +18,9 @@ function handleCredentialResponse(response) {
   const decoded = jwt_decode(response.credential);
   signedInEmail = decoded.email;
   document.getElementById("email").value = signedInEmail;
+  document.getElementById("updatedBy").value = signedInEmail;
   console.log("Signed-in email:", signedInEmail);
 }
-
 document.getElementById("feedbackForm").addEventListener("submit", function (e) {
   e.preventDefault();
 
@@ -29,24 +29,18 @@ document.getElementById("feedbackForm").addEventListener("submit", function (e) 
     return;
   }
 
-  const formData = new FormData(this);
-  const data = {};
-  formData.forEach((value, key) => {
-    data[key] = value;
-  });
+  const formData = new FormData(this); // ✅ Send this directly
 
   const sheetURL = "https://script.google.com/macros/s/AKfycbwWER_UoLtPkT8dp05O3SlBPCQEmuPKYm6ecCsrhQoFetKzrtx-DRmhqY6mR9_Opz-7/exec";
 
   fetch(sheetURL, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(data)
+    body: formData // ✅ No headers, no JSON.stringify
   })
     .then(res => res.text())
     .then(text => {
       alert("✅ Success!");
+      this.reset();
       fetchSheetData();
     })
     .catch(err => {
@@ -73,9 +67,8 @@ function renderTable(data) {
   const dataSection = document.getElementById("dataSection");
   dataSection.style.display = "block";
 
-  table.innerHTML = ""; // Clear old data
+  table.innerHTML = "";
 
-  // Header
   const headers = Object.keys(data[0]);
   const thead = document.createElement("tr");
   headers.forEach(h => {
@@ -85,7 +78,6 @@ function renderTable(data) {
   });
   table.appendChild(thead);
 
-  // Rows
   data.forEach(row => {
     const tr = document.createElement("tr");
     headers.forEach(key => {

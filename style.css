@@ -1,94 +1,115 @@
 body {
   margin: 0;
   font-family: "Segoe UI", sans-serif;
-  background: linear-gradient(to right, #74ebd5, #acb6e5);
+  background: linear-gradient(to right, #ffecd2, #fcb69f);
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  min-height: 100vh;
   animation: fadeIn 1.5s ease-in;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .form-container {
-  background-color: white;
-  padding: 2rem 2.5rem;
-  border-radius: 15px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  background: #fff;
+  padding: 2rem;
+  border-radius: 25px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 650px;
+  max-width: 700px;
   animation: slideIn 1s ease-out;
+  box-sizing: border-box;
 }
 
 h2, h3 {
   text-align: center;
-   
   color: #333;
   margin-bottom: 1.5rem;
+  font-size: 1.8rem;
 }
 
 .input-group {
-  margin-bottom: 1rem;
+  margin-bottom: 1.2rem;
   display: flex;
   flex-direction: column;
+  animation: fadeIn 0.5s ease-in-out;
 }
 
 label {
   font-weight: 600;
   margin-bottom: 5px;
+  color: #444;
 }
 
-input, textarea {
-  padding: 10px;
-  border-radius: 8px;
+input, textarea, select {
+  padding: 12px;
+  border-radius: 10px;
   border: 1px solid #ccc;
   outline: none;
   font-size: 16px;
-  transition: 0.3s;
+  transition: all 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-input:focus, textarea:focus {
-  border-color: #4b9cff;
-  box-shadow: 0 0 5px #4b9cff88;
+input:focus, textarea:focus, select:focus {
+  border-color: #ff8c94;
+  box-shadow: 0 0 8px rgba(255, 140, 148, 0.5);
+}
+
+select {
+  background-color: #fff;
 }
 
 .email-group {
-  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
 }
 
 #googleBtn {
-  position: absolute;
-  top: 0;
-  right: 0;
+  display: inline-block;
 }
 
 button {
   width: 100%;
-  padding: 12px;
-  background-color: #4b9cff;
+  padding: 14px;
+  background: linear-gradient(135deg, #f857a6, #ff5858);
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
   font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out, background 0.3s;
+  margin-top: 10px;
 }
 
 button:hover {
-  background-color: #1976d2;
+  background: linear-gradient(135deg, #ff416c, #ff4b2b);
+  transform: scale(1.03);
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
   background-color: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  animation: fadeIn 0.8s ease-in;
+  margin-top: 1rem;
+  font-size: 0.9rem;
 }
 
 th, td {
   text-align: left;
-  padding: 10px;
-  border: 1px solid #ddd;
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+  word-wrap: break-word;
 }
 
+/* Animations */
 @keyframes slideIn {
   0% {
     opacity: 0;
@@ -103,4 +124,44 @@ th, td {
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
+}
+
+/* ✅ Responsive Styles */
+@media (max-width: 768px) {
+  .form-container {
+    padding: 1.5rem;
+    border-radius: 18px;
+  }
+
+  h2, h3 {
+    font-size: 1.5rem;
+  }
+
+  input, select, textarea {
+    font-size: 15px;
+    padding: 10px;
+  }
+
+  button {
+    font-size: 15px;
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .email-group {
+    justify-content: center;
+  }
+
+  h2 {
+    font-size: 1.4rem;
+  }
+
+  table {
+    font-size: 0.8rem;
+  }
+
+  th, td {
+    padding: 8px;
+  }
 }

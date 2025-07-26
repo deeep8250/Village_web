@@ -11,35 +11,58 @@
 </head>
 <body>
   <div class="form-container">
-    <h2>Feedback Form</h2>
+    <h2>📋 Fancy Feedback Form</h2>
 
     <div class="email-group">
       <div id="googleBtn"></div>
     </div>
     <br />
- 
+
     <form id="feedbackForm">
       <div class="input-group">
-        <label>Name: <input type="text" name="Name" required /></label>
+        <label>Role:
+          <select name="role" required>
+            <option value="" disabled selected>Select Role</option>
+            <option value="Admin">Admin</option>
+            <option value="Normal User">Normal User</option>
+          </select>
+        </label>
       </div>
+
       <div class="input-group">
-        <label>Amount: <input type="number" name="Amount" required /></label>
+        <label>Updated For (Email): <input type="email" name="updatedFor" required /></label>
       </div>
+
       <div class="input-group">
-        <label>Area: <input type="text" name="Area" required /></label>
+        <label>Updated By (Your Email): <input type="email" id="updatedBy" name="updatedBy" readonly /></label>
       </div>
+
       <div class="input-group">
-        <label>Remarks: <input type="text" name="Remarks" required /></label>
+        <label>Name: <input type="text" name="name" required /></label>
       </div>
-      <input type="hidden" id="email" name="Email" />
-      <button type="submit">Submit</button>
+
+      <div class="input-group">
+        <label>Amount: <input type="number" name="amount" required /></label>
+      </div>
+
+      <div class="input-group">
+        <label>Area: <input type="text" name="area" required /></label>
+      </div>
+
+      <div class="input-group">
+        <label>Remarks: <input type="text" name="remarks" required /></label>
+      </div>
+
+      <input type="hidden" id="email" name="email" />
+
+      <button type="submit">🚀 Submit</button>
     </form>
 
     <div id="dataSection" style="margin-top: 2rem; display: none;">
-      <h3>Submitted Data</h3>
+      <h3>📊 Submitted Data</h3>
       <table id="dataTable" border="1" cellpadding="10" cellspacing="0"></table>
       <br />
-      <button onclick="downloadPDF()">Download as PDF</button>
+      <button onclick="downloadPDF()">📥 Download as PDF</button>
     </div>
   </div>
 </body>
