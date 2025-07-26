@@ -2,68 +2,84 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Feedback Form</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chanda Management System</title>
   <link rel="stylesheet" href="style.css" />
   <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <script src="libs/jwt-decode.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <script src="script.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 </head>
 <body>
-  <div class="form-container">
-    <h2>📋 Fancy Feedback Form</h2>
+  <div class="container">
+    <h1>Chanda Donation Entry</h1>
 
-    <div class="email-group">
-      <div id="googleBtn"></div>
+    <!-- Google Sign-In -->
+    <div id="g_id_onload"
+         data-client_id="207915409411-dctd16ba0gvr3t8d3hq2hgdkg541b0cj.apps.googleusercontent.com"
+         data-callback="handleCredentialResponse"
+         data-auto_prompt="false">
     </div>
-    <br />
+    <div class="g_id_signin"
+         data-type="standard"
+         data-shape="pill"
+         data-theme="outline"
+         data-text="sign_in_with"
+         data-size="large"
+         data-logo_alignment="left">
+    </div>
 
-    <form id="feedbackForm">
-      <div class="input-group">
-        <label>Role:
-          <select name="role" required>
-            <option value="" disabled selected>Select Role</option>
-            <option value="Admin">Admin</option>
-            <option value="Normal User">Normal User</option>
-          </select>
-        </label>
-      </div>
-
-      <div class="input-group">
-        <label>Updated For (Email): <input type="email" name="updatedFor" required /></label>
-      </div>
-
-      <div class="input-group">
-        <label>Updated By (Your Email): <input type="email" id="updatedBy" name="updatedBy" readonly /></label>
-      </div>
-
-      <div class="input-group">
-        <label>Name: <input type="text" name="name" required /></label>
-      </div>
-
-      <div class="input-group">
-        <label>Amount: <input type="number" name="amount" required /></label>
-      </div>
-
-      <div class="input-group">
-        <label>Area: <input type="text" name="area" required /></label>
-      </div>
-
-      <div class="input-group">
-        <label>Remarks: <input type="text" name="remarks" required /></label>
-      </div>
-
-      <input type="hidden" id="email" name="email" />
-
-      <button type="submit">🚀 Submit</button>
+    <!-- Donation Form -->
+    <form id="donationForm">
+      <input type="text" name="name" placeholder="Name" required />
+      <input type="number" name="amount" placeholder="Amount" required />
+      <input type="text" name="area" placeholder="Area" required />
+      <input type="text" name="festival" placeholder="Festival" required />
+      <textarea name="remarks" placeholder="Remarks"></textarea>
+      <input type="number" name="year" placeholder="Year" required />
+      <input type="email" id="updatedBy" name="updatedBy" placeholder="Updated By (auto)" readonly />
+      <input type="email" name="updatedFor" placeholder="Updated For (user's email)" required />
+      <input type="hidden" name="role" value="Admin" />
+      <button type="submit">Submit</button>
     </form>
 
-    <div id="dataSection" style="margin-top: 2rem; display: none;">
-      <h3>📊 Submitted Data</h3>
-      <table id="dataTable" border="1" cellpadding="10" cellspacing="0"></table>
-      <br />
-      <button onclick="downloadPDF()">📥 Download as PDF</button>
-    </div>
+    <!-- Search -->
+    <input type="text" id="searchInput" placeholder="Search by name" />
+
+    <!-- Table -->
+<!-- Table -->
+<div id="tableContainer">
+  <table id="dataTable">
+    <thead>
+      <tr>
+        <th>Timestamp</th>
+        <th>Name</th>
+        <th>Amount</th>
+        <th>Area</th>
+        <th>Remarks</th>
+        <th>Email</th>
+        <th>Updated By</th>
+        <th>Updated For</th>
+        <th>Role</th>
+        <th>Festival</th>
+        <th>Year</th>
+      </tr>
+    </thead>
+    <tbody id="dataTableBody"></tbody>
+  </table>
+</div>
+
+
+    <!-- Live Sheet Embed -->
+    <iframe id="liveSheet"
+      src="https://docs.google.com/spreadsheets/d/1hZHw-3qY70bKC0PBM9yYL6JqVjLEm4bbRbIx_rlKzD4/edit?usp=sharing"
+      frameborder="0"
+      width="100%"
+      height="400px">
+    </iframe>
+
+    <button id="downloadPdf">Export as PDF</button>
   </div>
+
+  <script src="script.js"></script>
 </body>
 </html>

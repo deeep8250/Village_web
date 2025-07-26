@@ -1,95 +1,82 @@
-let signedInEmail = null;
+// Google Sign-In
+function handleCredentialResponse(response) {
+  const data = jwt_decode(response.credential);
+  document.getElementById("updatedBy").value = data.email;
+  document.querySelector(".g_id_signin").style.display = "none";
+}
 
+// Google Sign-In Init
 window.onload = function () {
   google.accounts.id.initialize({
     client_id: "207915409411-dctd16ba0gvr3t8d3hq2hgdkg541b0cj.apps.googleusercontent.com",
-    callback: handleCredentialResponse
+    callback: handleCredentialResponse,
+  });
+  google.accounts.id.renderButton(document.querySelector(".g_id_signin"), {
+    theme: "outline",
+    size: "large",
+    type: "standard",
+    shape: "pill",
   });
 
-  google.accounts.id.renderButton(
-    document.getElementById("googleBtn"),
-    { theme: "outline", size: "large" }
-  );
-
-  fetchSheetData();
+  fetchData();
 };
 
-function handleCredentialResponse(response) {
-  const decoded = jwt_decode(response.credential);
-  signedInEmail = decoded.email;
-  document.getElementById("email").value = signedInEmail;
-  document.getElementById("updatedBy").value = signedInEmail;
-  console.log("Signed-in email:", signedInEmail);
-}
-document.getElementById("feedbackForm").addEventListener("submit", function (e) {
+// Submit Form
+document.getElementById("donationForm").addEventListener("submit", async function (e) {
   e.preventDefault();
 
-  if (!signedInEmail) {
-    alert("Please sign in with Google first.");
-    return;
-  }
+  const formData = new FormData(this);
+  const updatedBy = document.getElementById("updatedBy").value;
+  formData.append("email", updatedBy); // Add email field from updatedBy
 
-  const formData = new FormData(this); // ✅ Send this directly
+  const jsonData = Object.fromEntries(formData.entries());
 
-  const sheetURL = "https://script.google.com/macros/s/AKfycbwWER_UoLtPkT8dp05O3SlBPCQEmuPKYm6ecCsrhQoFetKzrtx-DRmhqY6mR9_Opz-7/exec";
-
-  fetch(sheetURL, {
-    method: "POST",
-    body: formData // ✅ No headers, no JSON.stringify
-  })
-    .then(res => res.text())
-    .then(text => {
-      alert("✅ Success!");
-      this.reset();
-      fetchSheetData();
-    })
-    .catch(err => {
-      console.error("Error submitting:", err);
-      alert("❌ Submission failed.");
+  try {
+    const response = await fetch("https://script.google.com/macros/s/AKfycbwWER_UoLtPkT8dp05O3SlBPCQEmuPKYm6ecCsrhQoFetKzrtx-DRmhqY6mR9_Opz-7/exec", {
+      method: "POST",
+      body: new URLSearchParams(jsonData),
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
     });
+
+    const resultText = await response.text();
+    alert(resultText);
+    this.reset();
+    document.getElementById("updatedBy").value = updatedBy;
+    fetchData();
+  } catch (err) {
+    console.error("Submission error:", err);
+    alert("❌ Submission failed.");
+  }
 });
 
-function fetchSheetData() {
-  const sheetReadURL = "https://script.google.com/macros/s/AKfycbwWER_UoLtPkT8dp05O3SlBPCQEmuPKYm6ecCsrhQoFetKzrtx-DRmhqY6mR9_Opz-7/exec?action=read";
+// Fetch Table Data
+async function fetchData() {
+  try {
+    const response = await fetch("https://script.google.com/macros/s/AKfycbwWER_UoLtPkT8dp05O3SlBPCQEmuPKYm6ecCsrhQoFetKzrtx-DRmhqY6mR9_Opz-7/exec");
+    const data = await response.json();
+    const tableBody = document.getElementById("dataTableBody");
+    tableBody.innerHTML = "";
 
-  fetch(sheetReadURL)
-    .then(res => res.json())
-    .then(data => {
-      if (data && data.length > 0) {
-        renderTable(data);
-      }
-    })
-    .catch(err => console.error("Failed to load sheet data:", err));
-}
-
-function renderTable(data) {
-  const table = document.getElementById("dataTable");
-  const dataSection = document.getElementById("dataSection");
-  dataSection.style.display = "block";
-
-  table.innerHTML = "";
-
-  const headers = Object.keys(data[0]);
-  const thead = document.createElement("tr");
-  headers.forEach(h => {
-    const th = document.createElement("th");
-    th.textContent = h;
-    thead.appendChild(th);
-  });
-  table.appendChild(thead);
-
-  data.forEach(row => {
-    const tr = document.createElement("tr");
-    headers.forEach(key => {
-      const td = document.createElement("td");
-      td.textContent = row[key];
-      tr.appendChild(td);
+    data.forEach((row) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${row.timestamp || ""}</td>
+        <td>${row.name || ""}</td>
+        <td>${row.amount || ""}</td>
+        <td>${row.area || ""}</td>
+        <td>${row.remarks || ""}</td>
+        <td>${row.email || ""}</td>
+        <td>${row.updatedby || ""}</td>
+        <td>${row.updatedfor || ""}</td>
+        <td>${row.role || ""}</td>
+        <td>${row.festival || ""}</td>
+        <td>${row.year || ""}</td>
+      `;
+      tableBody.appendChild(tr);
     });
-    table.appendChild(tr);
-  });
-}
-
-function downloadPDF() {
-  const element = document.getElementById("dataSection");
-  html2pdf().from(element).save("submitted_data.pdf");
+  } catch (err) {
+    console.error("Data fetch error:", err);
+  }
 }
