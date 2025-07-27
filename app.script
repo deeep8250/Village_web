@@ -1,43 +1,43 @@
-function doPost(e) {
-  try {
-    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Sheet1");
-    var data = e.parameter;
-
-    var row = [
-      new Date(),
-      data.name || "",
-      data.amount || "",
-      data.area || "",
-      data.remarks || "",
-      data.email || "",
-      data.updatedBy || "", // ✅ fixed casing
-      data.updatedFor || "", // ✅ fixed casing
-      data.role || ""
-    ];
-
-    sheet.appendRow(row);
-
-    return ContentService.createTextOutput(
-      JSON.stringify({
-        status: "✅ Success! Data saved.",
-        submittedData: {
-          name: data.name || "",
-          amount: data.amount || "",
-          area: data.area || "",
-          remarks: data.remarks || "",
-          email: data.email || "",
-          updatedBy: data.updatedBy || "", // ✅ fixed casing
-          updatedFor: data.updatedFor || "", // ✅ fixed casing
-          role: data.role || ""
-        }
-      })
-    ).setMimeType(ContentService.MimeType.JSON);
-  } catch (error) {
-    return ContentService.createTextOutput(
-      JSON.stringify({
-        status: "❌ Failed to save.",
-        error: error.message
-      })
-    ).setMimeType(ContentService.MimeType.JSON);
+function doGet(e) {
+  if (e.parameter.action === "read") {
+    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Sheet1");
+    const rows = sheet.getDataRange().getValues();
+    const headers = rows[0];
+    const data = rows.slice(1).map(r => {
+      const obj = {};
+      headers.forEach((h,i) => obj[h] = r[i]);
+      return obj;
+    });
+    return ContentService.createTextOutput(JSON.stringify(data))
+      .setMimeType(ContentService.MimeType.JSON)
+      .setHeader("Access-Control-Allow-Origin", "*");
   }
+  return ContentService.createTextOutput("Invalid Request")
+    .setHeader("Access-Control-Allow-Origin", "*");
+}
+
+function doPost(e) {
+  const data = JSON.parse(e.postData.contents);
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Sheet1");
+  sheet.appendRow([
+    new Date(),
+    data.name,
+    data.amount,
+    data.local,
+    data.remarks,
+    data.festival,
+    data.year,
+    data.updatedBy
+  ]);
+  return ContentService.createTextOutput("✅ Success")
+    .setMimeType(ContentService.MimeType.TEXT)
+    .setHeader("Access-Control-Allow-Origin", "*");
+}
+
+function doOptions(e) {
+  return ContentService.createTextOutput("")
+    .setHeader("Access-Control-Allow-Origin", "*")
+    .setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS")
+    .setHeader("Access-Control-Allow-Headers", "Content-Type")
+    .setMimeType(ContentService.MimeType.TEXT);
 }
