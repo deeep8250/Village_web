@@ -17,7 +17,8 @@
     <form id="donationForm">
       <input type="text" name="name" placeholder="Name" required />
       <input type="number" name="amount" id="amount" placeholder="Amount" required />
-      <input type="text" name="local" placeholder="Local (Colony)" required />
+      <input type="text" name="local" placeholder="Local (Ex: sau para)" required />
+      <input type="text" name="village" placeholder="Village (Ex: Rangilabad)" required />
       <select name="festival" required>
         <option value="">Select Festival</option>
         <option value="Diwali">Diwali</option>
@@ -31,7 +32,8 @@
       </select>
       <input type="text" name="remarks" placeholder="Remarks" />
       <input type="text" name="year" placeholder="Year" required />
-      <input type="email" name="updatedBy" id="updatedBy" placeholder="Updated By" readonly />
+      <input type="hidden" name="submittedBy" id="submittedBy" />
+      
       <button type="submit">Submit</button>
     </form>
 
