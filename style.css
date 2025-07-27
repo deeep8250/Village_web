@@ -1,9 +1,8 @@
 body {
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #c2e9fb, #a1c4fd);
+  font-family: "Segoe UI", sans-serif;
+  background: #f9f9f9;
   margin: 0;
   padding: 20px;
-  color: #333;
 }
 
 .container {
@@ -11,76 +10,74 @@ body {
   margin: auto;
   background: white;
   padding: 30px;
-  border-radius: 20px;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-  animation: fadeIn 1.2s ease-in;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
   text-align: center;
-  margin-bottom: 20px;
+  color: #4a148c;
+  margin-bottom: 30px;
 }
 
-form input, form textarea, form button {
-  width: 100%;
-  padding: 10px;
+form .form-group {
   margin-bottom: 15px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  font-size: 16px;
 }
 
-form button {
-  background: #4CAF50;
-  color: white;
-  cursor: pointer;
-  transition: background 0.3s ease;
+form label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
 }
 
-form button:hover {
-  background: #45a049;
-}
-
-#searchInput {
-  margin: 20px 0;
-  padding: 10px;
+form input,
+form select {
   width: 100%;
-  border-radius: 10px;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+button {
+  background: #4a148c;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background: #6a1b9a;
+}
+
+#dataTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 30px;
+}
+
+#dataTable th,
+#dataTable td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+#dataTable th {
+  background: #ede7f6;
+  color: #4a148c;
+}
+
+#searchBox {
+  margin-top: 20px;
+  padding: 8px 12px;
+  width: 100%;
+  border-radius: 8px;
   border: 1px solid #ccc;
 }
 
-#tableContainer {
-  overflow-x: auto;
+.g-signin-btn {
   margin-bottom: 20px;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 20px;
-}
-
-table th, table td {
-  padding: 10px;
-  text-align: left;
-  border-bottom: 1px solid #ccc;
-}
-
-#downloadPdf {
-  padding: 10px 20px;
-  font-size: 16px;
-  border-radius: 10px;
-  background: #f44336;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
-#downloadPdf:hover {
-  background: #d32f2f;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
 }
