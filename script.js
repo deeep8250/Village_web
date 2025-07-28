@@ -1,4 +1,4 @@
-const scriptURL = "https://script.google.com/macros/s/AKfycbzWQpM6nP3OugRQ60jDDkalJX9YCk-CWtFy7CVweIPTOl8vg0XnIs74c79vktoczTIb2g/exec";
+const scriptURL = "https://script.google.com/macros/s/AKfycby4oNfNjC1bKtL0rIWng4E0DYTEV9KBuMUsEbLFW5Q6HqVv7zi36IrUWi30mpC8PvoD-w/exec";
 
 function handleCredentialResponse(response) {
   const data = jwt_decode(response.credential);
