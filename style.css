@@ -1,83 +1,157 @@
+/* Global Styling */
 body {
   font-family: "Segoe UI", sans-serif;
-  background: #f9f9f9;
+  background: linear-gradient(135deg, #f3e5f5, #e8eaf6);
   margin: 0;
   padding: 20px;
+  animation: fadeIn 1s ease-in-out;
 }
 
+/* Container */
 .container {
-  max-width: 800px;
+  max-width: 850px;
   margin: auto;
   background: white;
-  padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  animation: slideUp 1s ease;
 }
 
+/* Heading */
 h1 {
   text-align: center;
-  color: #4a148c;
-  margin-bottom: 30px;
+  color: #6a1b9a;
+  margin-bottom: 35px;
+  font-size: 2.5rem;
+  position: relative;
 }
 
+h1::after {
+  content: '';
+  width: 60px;
+  height: 4px;
+  background: #6a1b9a;
+  display: block;
+  margin: 10px auto 0;
+  border-radius: 2px;
+  animation: expandLine 1s ease;
+}
+
+/* Form */
 form .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
+  animation: fadeIn 1s ease;
 }
 
 form label {
   display: block;
-  font-weight: bold;
-  margin-bottom: 5px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #333;
 }
 
 form input,
 form select {
   width: 100%;
-  padding: 8px 10px;
+  padding: 12px 15px;
   border: 1px solid #ccc;
-  border-radius: 8px;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: box-shadow 0.3s, border-color 0.3s;
 }
 
+form input:focus,
+form select:focus {
+  border-color: #7e57c2;
+  box-shadow: 0 0 8px rgba(126, 87, 194, 0.4);
+  outline: none;
+}
+
+/* Button */
 button {
-  background: #4a148c;
+  background: linear-gradient(to right, #7e57c2, #ab47bc);
   color: white;
-  padding: 10px 15px;
+  padding: 12px 18px;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
-  transition: background 0.3s;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
 button:hover {
-  background: #6a1b9a;
+  background: linear-gradient(to right, #8e24aa, #6a1b9a);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(106, 27, 154, 0.4);
 }
 
+/* Table */
 #dataTable {
   width: 100%;
   border-collapse: collapse;
   margin-top: 30px;
+  animation: fadeIn 1s ease-in-out;
 }
 
 #dataTable th,
 #dataTable td {
-  border: 1px solid #ddd;
-  padding: 10px;
+  border: 1px solid #e0e0e0;
+  padding: 12px;
   text-align: center;
+  transition: background-color 0.3s;
 }
 
 #dataTable th {
   background: #ede7f6;
   color: #4a148c;
+  font-weight: bold;
 }
 
+#dataTable tr:hover {
+  background-color: #f3e5f5;
+}
+
+/* Search Box */
 #searchBox {
-  margin-top: 20px;
-  padding: 8px 12px;
+  margin-top: 25px;
+  padding: 10px 14px;
   width: 100%;
-  border-radius: 8px;
+  border-radius: 10px;
   border: 1px solid #ccc;
+  transition: all 0.3s;
+  font-size: 1rem;
 }
 
+#searchBox:focus {
+  border-color: #7e57c2;
+  box-shadow: 0 0 6px rgba(126, 87, 194, 0.4);
+  outline: none;
+}
+
+/* Google Sign-in Button */
 .g-signin-btn {
-  margin-bottom: 20px;
+  margin-bottom: 25px;
+  transition: transform 0.3s ease;
+}
+
+.g-signin-btn:hover {
+  transform: scale(1.03);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes expandLine {
+  from { width: 0; }
+  to { width: 60px; }
 }
