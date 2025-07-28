@@ -1,4 +1,4 @@
-const scriptURL = "https://script.google.com/macros/s/AKfycbxx6yXYw7TgRv0AmfOlHwFABgvoZ-SGTOPngwzluWWWgOe2xCPUMZwAHVG-Dvfm5opgqQ/exec"; 
+const scriptURL = "https://script.google.com/macros/s/AKfycbxmTEQclZRO8_bHwnzEZkcibSWnZ-MHaUTU6iIZ-RKqZ4Yr-e_SkCAE_tGz617enxwJ/exec"; 
 
 function handleCredentialResponse(response) {
   const data = jwt_decode(response.credential);
@@ -59,20 +59,22 @@ async function fetchData() {
 
     const tbody = document.querySelector("#dataTable tbody");
     tbody.innerHTML = "";
+data.forEach(row => {
+  const tr = document.createElement("tr");
+  tr.innerHTML = `
+    <td>${row.Timestamp || ""}</td>
+    <td>${row.name || ""}</td>
+    <td>${row.amount || ""}</td>
+    <td>${row.local || ""}</td>
+    <td>${row.village || ""}</td>
+    <td>${row.festival || ""}</td>
+    <td>${row.remarks || ""}</td>
+    <td>${row.year || ""}</td>
+    <td>${row.submittedBy || ""}</td>
+  `;
+  tbody.appendChild(tr);
+});
 
-    data.forEach(row => {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td>${row.Timestamp || ""}</td>
-        <td>${row.Name || ""}</td>
-        <td>${row.Amount || ""}</td>
-        <td>${row.Local || ""}</td>
-        <td>${row.Festival || ""}</td>
-        <td>${row.Remarks || ""}</td>
-        <td>${row.Year || ""}</td>
-      `;
-      tbody.appendChild(tr);
-    });
   } catch (err) {
     console.error("Fetching error:", err);
     alert("❌ Failed to load data.");

@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="style.css" />
   <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 <body>
   <div class="container">
@@ -19,12 +18,6 @@
       Sign in with Google
     </div>
 
-    <!-- Upload Excel -->
-    <div class="upload-area">
-      <label for="uploadExcel" class="upload-label">📄 Upload Excel File</label>
-      <input type="file" id="uploadExcel" accept=".xlsx, .xls" hidden />
-    </div>
-
     <!-- Donation Form -->
     <div class="form-wrapper">
       <form id="donationForm">
@@ -33,7 +26,7 @@
           <label>Name</label>
         </div>
         <div class="form-group">
-          <input type="number" name="amount" id="amount" placeholder=" " required />
+          <input type="number" name="amount" id="amount" placeholder="000" required />
           <label>Amount</label>
         </div>
         <div class="form-group">
@@ -72,22 +65,30 @@
     </div>
 
     <!-- Search -->
-    <input type="text" id="searchBox" placeholder="Search by Name" />
+<!-- Filter Section -->
+<div class="search-filters">
+  <input type="text" id="searchByName" placeholder="Search by Name" />
+  <input type="text" id="searchByVillage" placeholder="Search by Village" />
+  <input type="text" id="searchByYear" placeholder="Search by Year" />
+  <button id="loadDataBtn">Load Data</button>
+</div>
+
 
     <!-- Table -->
     <div class="table-wrapper">
       <table id="dataTable">
         <thead>
-          <tr id="tableHeader">
-            <th>Timestamp</th>
-            <th>Name</th>
-            <th>Amount</th>
-            <th>Local</th>
-            <th>Remarks</th>
-            <th>Festival</th>
-            <th>Year</th>
-            <th>Updated By</th>
-          </tr>
+       <tr id="tableHeader">
+  <th>Timestamp</th>
+  <th>Name</th>
+  <th>Amount</th>
+  <th>Local</th>
+  <th>Remarks</th>
+  <th>Festival</th>
+  <th>Year</th>
+  <th>Updated By</th>
+</tr>
+
         </thead>
         <tbody></tbody>
       </table>
