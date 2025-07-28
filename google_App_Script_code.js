@@ -58,20 +58,32 @@ function doGet(e) {
 
 function readSheetData() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
-  const sheet = ss.getActiveSheet(); // or specify sheet by name
+  const sheets = ss.getSheets();
 
-  const data = sheet.getDataRange().getValues();
-  const headers = data.shift();
+  const combinedData = [];
+  const expectedHeaders = [
+    "Timestamp", "year", "village", "festival", "remarks", "local", "name", "amount", "submittedBy"
+  ];
 
-  const result = data.map(row => {
-    const rowObject = {};
-    headers.forEach((header, index) => {
-      rowObject[header] = row[index];
-    });
-    return rowObject;
-  });
+  for (const sheet of sheets) {
+    const data = sheet.getDataRange().getValues();
+    if (data.length < 2) continue; // skip if only header or empty
+
+    const headers = data[0];
+    if (headers.join() !== expectedHeaders.join()) continue; // skip if header structure doesn't match
+
+    for (let i = 1; i < data.length; i++) {
+      const row = data[i];
+      const rowObject = {};
+      headers.forEach((header, index) => {
+        rowObject[header] = row[index];
+      });
+      combinedData.push(rowObject);
+    }
+  }
 
   return ContentService
-    .createTextOutput(JSON.stringify(result))
+    .createTextOutput(JSON.stringify(combinedData))
     .setMimeType(ContentService.MimeType.JSON);
 }
+
