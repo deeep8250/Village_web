@@ -1,4 +1,4 @@
-const scriptURL = "https://script.google.com/macros/s/AKfycbxmTEQclZRO8_bHwnzEZkcibSWnZ-MHaUTU6iIZ-RKqZ4Yr-e_SkCAE_tGz617enxwJ/exec"; 
+const scriptURL = "https://script.google.com/macros/s/AKfycbxmZpb_VseccxhaEnUR9GHN_iy1lblFJgCDW3rOxUNHXX6fPMAxu66y7sCSb0vb7up5/exec"; 
 
 function handleCredentialResponse(response) {
   const data = jwt_decode(response.credential);
@@ -61,17 +61,18 @@ async function fetchData() {
     tbody.innerHTML = "";
 data.forEach(row => {
   const tr = document.createElement("tr");
-  tr.innerHTML = `
-    <td>${row.Timestamp || ""}</td>
-    <td>${row.name || ""}</td>
-    <td>${row.amount || ""}</td>
-    <td>${row.local || ""}</td>
-    <td>${row.village || ""}</td>
-    <td>${row.festival || ""}</td>
-    <td>${row.remarks || ""}</td>
-    <td>${row.year || ""}</td>
-    <td>${row.submittedBy || ""}</td>
-  `;
+tr.innerHTML = `
+  <td>${row.Timestamp || ""}</td>
+  <td>${row.name || ""}</td>
+  <td>${row.amount || ""}</td>
+  <td>${row.local || ""}</td>
+  <td>${row.village || ""}</td>
+  <td>${row.festival || ""}</td>
+  <td>${row.remarks || ""}</td>
+  <td>${row.year || ""}</td>
+  <td>${row.submittedBy || ""}</td>
+`;
+
   tbody.appendChild(tr);
 });
 
