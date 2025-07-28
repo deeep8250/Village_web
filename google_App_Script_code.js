@@ -1,56 +1,48 @@
-function doGet(e) {
-  const action = e.parameter.action;
+function doPost(e) {
+  try {
+    const data = e.parameter;
+    const sheetName = `${data.year}_${data.festival}`;
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    let sheet = ss.getSheetByName(sheetName);
 
-  if (action === "read") {
-    const year = e.parameter.year;
-    const festival = e.parameter.festival;
-    return readSheetData(year, festival);
-  }
 
-  return ContentService
-    .createTextOutput("Invalid action")
-    .setMimeType(ContentService.MimeType.TEXT);
-}
+    
+    // Set your expected fields (preserve order)
+    const expectedHeaders = [
+      "Timestamp", "year", "village", "festival", "remarks", "local", "name","amount", "submittedBy",
+    ];
 
-function readSheetData(year, festival) {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-
-  let sheetsToRead = [];
-
-  if (year && festival) {
-    const sheetName = `${year}_${festival}`;
-    const sheet = ss.getSheetByName(sheetName);
+    // Create sheet if not exists
     if (!sheet) {
-      return ContentService
-        .createTextOutput(`[]`) // return empty array if not found
-        .setMimeType(ContentService.MimeType.JSON);
+      sheet = ss.insertSheet(sheetName);
+      sheet.appendRow(expectedHeaders);
     }
-    sheetsToRead = [sheet];
-  } else {
-    // If no filters provided, return from all sheets
-    sheetsToRead = ss.getSheets();
+
+    // Ensure headers match (optional safety check)
+    const sheetHeaders = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
+    if (sheetHeaders.join() !== expectedHeaders.join()) {
+      throw new Error("Sheet headers mismatch – please verify header structure.");
+    }
+
+    // Prepare row
+    const row = [new Date()];
+    for (let i = 1; i < expectedHeaders.length; i++) {
+      const key = expectedHeaders[i];
+      row.push(data[key] || "");
+    }
+
+    sheet.appendRow(row);
+
+    return ContentService
+      .createTextOutput("✅ Data saved successfully")
+      .setMimeType(ContentService.MimeType.TEXT);
+
+  } catch (err) {
+    return ContentService
+      .createTextOutput(`❌ Error: ${err.message}`)
+      .setMimeType(ContentService.MimeType.TEXT);
   }
-
-  let result = [];
-
-  sheetsToRead.forEach(sheet => {
-    const data = sheet.getDataRange().getValues();
-    const headers = data.shift(); // first row as headers
-
-    data.forEach(row => {
-      const obj = {};
-      headers.forEach((header, i) => {
-        obj[header] = row[i];
-      });
-      result.push(obj);
-    });
-  });
-
-  return ContentService
-    .createTextOutput(JSON.stringify(result))
-    .setMimeType(ContentService.MimeType.JSON);
 }
-
 
 
 function doGet(e) {
@@ -64,4 +56,22 @@ function doGet(e) {
     .setMimeType(ContentService.MimeType.TEXT);
 }
 
+function readSheetData() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = ss.getActiveSheet(); // or specify sheet by name
 
+  const data = sheet.getDataRange().getValues();
+  const headers = data.shift();
+
+  const result = data.map(row => {
+    const rowObject = {};
+    headers.forEach((header, index) => {
+      rowObject[header] = row[index];
+    });
+    return rowObject;
+  });
+
+  return ContentService
+    .createTextOutput(JSON.stringify(result))
+    .setMimeType(ContentService.MimeType.JSON);
+}
