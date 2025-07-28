@@ -5,6 +5,8 @@ function doPost(e) {
     const ss = SpreadsheetApp.getActiveSpreadsheet();
     let sheet = ss.getSheetByName(sheetName);
 
+
+    
     // Set your expected fields (preserve order)
     const expectedHeaders = [
       "Timestamp", "year", "village", "festival", "remarks", "local", "name", "submittedBy", "updatedBy"
