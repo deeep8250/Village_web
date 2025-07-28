@@ -7,95 +7,92 @@
   <link rel="stylesheet" href="style.css" />
   <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>Budget Catcher</h1>
 
-    <!-- Google Sign-in Styled -->
+    <!-- Google Sign-In Button -->
     <div class="g-signin-btn" id="googleSignIn">
       <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" />
       Sign in with Google
     </div>
-   
+
+    <!-- Upload Excel -->
+    <div class="upload-area">
+      <label for="uploadExcel" class="upload-label">📄 Upload Excel File</label>
+      <input type="file" id="uploadExcel" accept=".xlsx, .xls" hidden />
+    </div>
+
     <!-- Donation Form -->
+    <div class="form-wrapper">
+      <form id="donationForm">
+        <div class="form-group">
+          <input type="text" name="name" placeholder=" " required />
+          <label>Name</label>
+        </div>
+        <div class="form-group">
+          <input type="number" name="amount" id="amount" placeholder=" " required />
+          <label>Amount</label>
+        </div>
+        <div class="form-group">
+          <input type="text" name="local" placeholder=" " required />
+          <label>Local (Ex: sau para)</label>
+        </div>
+        <div class="form-group">
+          <input type="text" name="village" placeholder=" " required />
+          <label>Village (Ex: Rangilabad)</label>
+        </div>
+        <div class="form-group">
+          <select name="festival" required>
+            <option value="">Select Festival</option>
+            <option value="Diwali">Diwali</option>
+            <option value="Holi">Holi</option>
+            <option value="Durga Puja">Durga Puja</option>
+            <option value="Navratri">Navratri</option>
+            <option value="Raksha Bandhan">Raksha Bandhan</option>
+            <option value="Janmashtami">Janmashtami</option>
+            <option value="Ganesh Chaturthi">Ganesh Chaturthi</option>
+            <option value="Makar Sankranti">Makar Sankranti</option>
+          </select>
+          <label>Festival</label>
+        </div>
+        <div class="form-group">
+          <input type="text" name="remarks" placeholder=" " />
+          <label>Remarks</label>
+        </div>
+        <div class="form-group">
+          <input type="text" name="year" placeholder=" " required />
+          <label>Year</label>
+        </div>
+        <input type="hidden" name="submittedBy" id="submittedBy" />
+        <button type="submit">Submit</button>
+      </form>
+    </div>
 
-<div class="form-wrapper">
- 
-</div>
-
-
-    <form id="donationForm">
-      <div class="form-group">
-        <input type="text" name="name" placeholder=" " required />
-        <label>Name</label>
-      </div>
-
-      <div class="form-group">
-        <input type="number" name="amount" id="amount" placeholder=" " required />
-        <label>Amount</label>
-      </div>
-
-      <div class="form-group">
-        <input type="text" name="local" placeholder=" " required />
-        <label>Local (Ex: sau para)</label>
-      </div>
-
-      <div class="form-group">
-        <input type="text" name="village" placeholder=" " required />
-        <label>Village (Ex: Rangilabad)</label>
-      </div>
-
-      <div class="form-group">
-        <select name="festival" required>
-       
-          <option value="Diwali">Diwali</option>
-          <option value="Holi">Holi</option>
-          <option value="Durga Puja">Durga Puja</option>
-          <option value="Navratri">Navratri</option>
-          <option value="Raksha Bandhan">Raksha Bandhan</option>
-          <option value="Janmashtami">Janmashtami</option>
-          <option value="Ganesh Chaturthi">Ganesh Chaturthi</option>
-          <option value="Makar Sankranti">Makar Sankranti</option>
-        </select>
-        <label> Festival</label>
-      </div>
-
-      <div class="form-group">
-        <input type="text" name="remarks" placeholder=" " />
-        <label>Remarks</label>
-      </div>
-
-      <div class="form-group">
-        <input type="text" name="year" placeholder=" " required />
-        <label>Year</label>
-      </div>
-
-      <input type="hidden" name="submittedBy" id="submittedBy" />
-
-      <button type="submit">Submit</button>
-    </form>
     <!-- Search -->
     <input type="text" id="searchBox" placeholder="Search by Name" />
 
     <!-- Table -->
-    <table id="dataTable">
-      <thead>
-        <tr>
-          <th>Timestamp</th>
-          <th>Name</th>
-          <th>Amount</th>
-          <th>Local</th>
-          <th>Remarks</th>
-          <th>Festival</th>
-          <th>Year</th>
-          <th>Updated By</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+    <div class="table-wrapper">
+      <table id="dataTable">
+        <thead>
+          <tr id="tableHeader">
+            <th>Timestamp</th>
+            <th>Name</th>
+            <th>Amount</th>
+            <th>Local</th>
+            <th>Remarks</th>
+            <th>Festival</th>
+            <th>Year</th>
+            <th>Updated By</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
 
-    <!-- Export Button -->
     <button id="downloadPDF">Export as PDF</button>
   </div>
 
