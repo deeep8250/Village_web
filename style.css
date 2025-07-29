@@ -17,14 +17,12 @@ body {
 }
 
 .container {
-  background: #ffffff;
   width: 100%;
-  max-width: 1100px;
-  margin: 40px;
-  padding: 40px 30px;
-  border-radius: 20px;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  max-width: none;
+  padding: 20px;
+  box-sizing: border-box;
 }
+
 
 .main-title {
   text-align: center;
@@ -39,8 +37,8 @@ body {
   align-items: center;
   justify-content: center;
   gap: 12px;
-  background: #ffffff;
-  border: 2px solid #e0e0e0;
+  color: transparent;
+ 
   border-radius: 12px;
   padding: 12px 20px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
@@ -122,6 +120,7 @@ button[type="submit"]:hover {
   justify-content: center;
 }
 
+
 .search-filters input[type="text"] {
   padding: 10px 14px;
   border: 2px solid #e0d4fc;
@@ -150,7 +149,7 @@ button[type="submit"]:hover {
   border-collapse: collapse;
   border-radius: 16px;
   font-size: 0.95rem;
-  overflow: hidden;
+  overflow: visible;
 }
 
 #dataTable thead {
@@ -161,6 +160,8 @@ button[type="submit"]:hover {
   padding: 12px 16px;
   text-align: center;
   border-bottom: 1px solid #f3e5f5;
+  vertical-align: middle;   /* ⬅️ Add this line */
+  height: auto;             /* ⬅️ Add this line */ 
 }
 
 #dataTable tbody tr:hover {
@@ -195,4 +196,45 @@ button[type="submit"]:hover {
     opacity: 1;
     transform: translateY(0);
   }
+}.total-amount-box {
+  padding: 12px 20px;
+  margin-top: 20px;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  text-align: right;
+  font-size: 18px;
+  font-weight: 600;
+  height: auto;
+  min-height: 40px;         /* ✅ Ensure minimum height */
+  display: flex;            /* ✅ Prevent collapse */
+  align-items: center;      /* ✅ Center vertically */
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+/* Allow wrapping for email cells */
+#dataTable td:nth-child(9), #dataTable th:nth-child(9) {
+  white-space: normal;
+  word-wrap: break-word;
+  word-break: break-word;
+  max-width: 200px; /* You can adjust this if needed */
+}
+#exportContent {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+.edit-button {
+  padding: 8px 16px;              /* Slightly more space */
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  background-color: #007BFF;
+  color: white;
+  cursor: pointer;
+  display: inline-block;
+  line-height: 1.4;               /* Ensure natural vertical spacing */
+  height: auto;
+  vertical-align: middle;
+  white-space: nowrap;           /* Prevent multiline button */
 }

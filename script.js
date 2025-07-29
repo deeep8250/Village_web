@@ -65,10 +65,10 @@ function renderTable(data) {
   const tbody = document.querySelector("#dataTable tbody");
   tbody.innerHTML = "";
 
-  data.forEach(row => {
+  data.forEach((row, index) => {
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td>${row.Timestamp || ""}</td>
+      <td style="white-space: nowrap;">${row.Timestamp || ""}</td>
       <td>${row.name || ""}</td>
       <td>${row.amount || ""}</td>
       <td>${row.local || ""}</td>
@@ -77,32 +77,102 @@ function renderTable(data) {
       <td>${row.remarks || ""}</td>
       <td>${row.year || ""}</td>
       <td>${row.submittedBy || ""}</td>
+    
     `;
     tbody.appendChild(tr);
   });
+
+  // Attach edit button listeners
+
 }
+
 
 function applyFilters() {
   const nameInput = document.getElementById("searchByName").value.trim().toLowerCase();
   const villageInput = document.getElementById("searchByVillage").value.trim().toLowerCase();
   const yearInput = document.getElementById("searchByYear").value.trim().toLowerCase();
+  const amountInput = document.getElementById("searchByAmount").value.trim().toLowerCase();
+  const localInput = document.getElementById("searchByLocal").value.trim().toLowerCase();
+  const festivalInput = document.getElementById("searchByFestival").value.trim().toLowerCase();
+  const remarksInput = document.getElementById("searchByRemarks").value.trim().toLowerCase();
+  const submittedByInput = document.getElementById("searchBySubmittedBy").value.trim().toLowerCase();
 
   const filtered = allData.filter(row => {
     const name = String(row.name || "").toLowerCase();
     const village = String(row.village || "").toLowerCase();
     const year = String(row.year || "").toLowerCase();
+    const amount = String(row.amount || "").toLowerCase();
+    const local = String(row.local || "").toLowerCase();
+    const festival = String(row.festival || "").toLowerCase();
+    const remarks = String(row.remarks || "").toLowerCase();
+    const submittedBy = String(row.submittedBy || "").toLowerCase();
 
-    const nameMatch = !nameInput || name.startsWith(nameInput);
-    const villageMatch = !villageInput || village.startsWith(villageInput);
-    const yearMatch = !yearInput || year.startsWith(yearInput);
-
-    return nameMatch && villageMatch && yearMatch;
+    return (
+      (!nameInput || name.startsWith(nameInput)) &&
+      (!villageInput || village.startsWith(villageInput)) &&
+      (!yearInput || year.startsWith(yearInput)) &&
+      (!amountInput || amount.startsWith(amountInput)) &&
+      (!localInput || local.startsWith(localInput)) &&
+      (!festivalInput || festival.startsWith(festivalInput)) &&
+      (!remarksInput || remarks.startsWith(remarksInput)) &&
+      (!submittedByInput || submittedBy.startsWith(submittedByInput))
+    );
   });
 
+  // Show table
   renderTable(filtered);
+
+  // ✅ Show total amount
+  const total = filtered.reduce((sum, row) => {
+    const amt = parseFloat(row.amount);
+    return !isNaN(amt) ? sum + amt : sum;
+  }, 0);
+
+  document.getElementById("totalAmount").textContent = total.toFixed(2);
 }
+
+
 
 
 // ✅ Now filters only apply when user clicks "Load Data"
 document.getElementById("loadDataBtn").addEventListener("click", applyFilters);
-// ✅ END: Filter setup
+
+
+
+
+
+
+document.getElementById("downloadPDF").addEventListener("click", function () {
+  const element = document.getElementById("exportContent");
+
+  // Force width 100% and max width for PDF rendering
+  element.style.width = "100%";
+  element.style.maxWidth = "none";
+
+  const opt = {
+    margin: [10, 10, 10, 10], // small margins
+    filename: 'filtered_data.pdf',
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: {
+      scale: 2,             // higher quality render
+      scrollY: 0,
+      windowWidth: 2000     // balances between fit and wrapping
+    },
+    jsPDF: {
+      unit: 'mm',
+      format: [330, 210],    // custom wide size (landscape)
+      orientation: 'landscape'
+    },
+    pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+  };
+
+  html2pdf().set(opt).from(element).save();
+});
+
+
+
+
+
+
+
+//update or edit portion
