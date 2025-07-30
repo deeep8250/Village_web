@@ -5,75 +5,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Budget Catcher System</title>
     <link rel="stylesheet" href="style.css" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body>
     <div class="container">
-      <h1 class="main-title">Budget Catcher</h1>
+      <div class="hero-header">
+        <h1 class="main-title">💰 Budget Catcher</h1>
+      </div>
 
       <!-- Google Sign-In Button -->
-      <div class="g-signin-btn" id="googleSignIn">
-        <img
-          src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
-          alt="Google"
-        />
-        Sign in with Google
+      <div class="text-center">
+        <div class="g-signin-btn" id="googleSignIn">
+          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" />
+          Sign in with Google
+        </div>
       </div>
 
       <!-- Donation Form -->
       <div class="form-wrapper">
         <form id="donationForm">
-          <div class="form-group">
-            <input type="text" name="name" placeholder=" " required /><label
-              >Name</label
-            >
-          </div>
-          <div class="form-group">
-            <input
-              type="number"
-              name="amount"
-              id="amount"
-              placeholder="000"
-              required
-            /><label>Amount</label>
-          </div>
-          <div class="form-group">
-            <input type="text" name="local" placeholder=" " required /><label
-              >Local (Ex: sau para)</label
-            >
-          </div>
-          <div class="form-group">
-            <input type="text" name="village" placeholder=" " required /><label
-              >Village (Ex: Rangilabad)</label
-            >
-          </div>
-          <div class="form-group">
-            <select name="festival" required>
-              <option value="Diwali">Diwali</option>
-              <option value="Holi">Holi</option>
-              <option value="Durga Puja">Durga Puja</option>
-              <option value="Navratri">Navratri</option>
-              <option value="Raksha Bandhan">Raksha Bandhan</option>
-              <option value="Janmashtami">Janmashtami</option>
-              <option value="Ganesh Chaturthi">Ganesh Chaturthi</option>
-              <option value="Makar Sankranti">Makar Sankranti</option>
-            </select>
-            <label>Festival</label>
-          </div>
-          <div class="form-group">
-            <input type="text" name="remarks" placeholder=" " /><label
-              >Remarks</label
-            >
-          </div>
-          <div class="form-group">
-            <input type="text" name="year" placeholder=" " required /><label
-              >Year</label
-            >
+          <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-4">
+            <div class="form-group">
+              <input type="text" name="name" placeholder=" " required />
+              <label>Name</label>
+            </div>
+            <div class="form-group">
+              <input type="number" name="amount" id="amount" placeholder="000" required />
+              <label>Amount</label>
+            </div>
+            <div class="form-group">
+              <input type="text" name="local" placeholder=" " required />
+              <label>Local (Ex: sau para)</label>
+            </div>
+            <div class="form-group">
+              <input type="text" name="village" placeholder=" " required />
+              <label>Village (Ex: Rangilabad)</label>
+            </div>
+            <div class="form-group">
+              <select name="festival" required>
+                <option value=""></option>
+                <option value="Diwali">Diwali</option>
+                <option value="Holi">Holi</option>
+                <option value="Durga Puja">Durga Puja</option>
+                <option value="Navratri">Navratri</option>
+                <option value="Raksha Bandhan">Raksha Bandhan</option>
+                <option value="Janmashtami">Janmashtami</option>
+                <option value="Ganesh Chaturthi">Ganesh Chaturthi</option>
+                <option value="Makar Sankranti">Makar Sankranti</option>
+              </select>
+              <label>Festival</label>
+            </div>
+            <div class="form-group">
+              <input type="text" name="remarks" placeholder=" " />
+              <label>Remarks</label>
+            </div>
+            <div class="form-group">
+              <input type="text" name="year" placeholder=" " required />
+              <label>Year</label>
+            </div>
           </div>
           <input type="hidden" name="submittedBy" id="submittedBy" />
           <button type="submit">Submit</button>
@@ -81,51 +73,35 @@
       </div>
 
       <!-- Filter Section -->
-      <!-- Filter Section -->
-  <!-- Filter Section -->
-<div class="search-filters">
-  <input type="text" id="searchByName" placeholder="Search by Name" />
-<select id="searchByAmountRange">
-  <option value="">Select Amount Range</option>
-  <option value="10-100">₹10 - ₹100</option>
-  <option value="100-500">₹100 - ₹500</option>
-  <option value="500-1000">₹500 - ₹1000</option>
-  <option value="1000-2000">₹1000 - ₹2000</option>
-  <option value="2000-5000">₹2000 - ₹5000</option>
-  <option value="5000-10000">₹5000 - ₹10000</option>
-<option value="10000+">₹10000+</option>
+      <div class="search-filters">
+        <input type="text" id="searchByName" placeholder="Search by Name" />
+        <select id="searchByAmountRange">
+          <option value="">Select Amount Range</option>
+          <option value="10-100">₹10 - ₹100</option>
+          <option value="100-500">₹100 - ₹500</option>
+          <option value="500-1000">₹500 - ₹1000</option>
+          <option value="1000-2000">₹1000 - ₹2000</option>
+          <option value="2000-5000">₹2000 - ₹5000</option>
+          <option value="5000-10000">₹5000 - ₹10000</option>
+          <option value="10000+">₹10000+</option>
+        </select>
+        <select id="searchByVillage">
+          <option value="">Select Village</option>
+        </select>
+        <select id="searchByYear">
+          <option value="">Select Year</option>
+        </select>
+        <select id="searchByLocal">
+          <option value="">Select Local</option>
+        </select>
+        <select id="searchByFestival">
+          <option value="">Select Festival</option>
+        </select>
+        <input type="text" id="searchBySubmittedBy" placeholder="Search by Submitted By" />
+        <button id="loadDataBtn">Load Data</button>
+      </div>
 
-</select>
-
-<select id="searchByVillage">
-  <option value="">Select Village</option>
-</select>
-
-<select id="searchByYear">
-  <option value="">Select Year</option>
-</select>
-
-<select id="searchByLocal">
-  <option value="">Select Local</option>
-</select>
-
-<select id="searchByFestival">
-  <option value="">Select Festival</option>
-</select>
-
-
-  <input
-    type="text"
-    id="searchBySubmittedBy"
-    placeholder="Search by Submitted By"
-  />
-
-  <button id="loadDataBtn">Load Data</button>
-</div>
-
-
-      <!-- Table -->
-      <!-- Wrap content to export -->
+      <!-- Table and Export -->
       <div id="exportContent">
         <div class="table-wrapper">
           <table id="dataTable">
@@ -156,16 +132,16 @@
             <tbody></tbody>
           </table>
         </div>
+      </div>
 
-        <div id="totalAmountBox" class="total-amount-box">
-          Total Amount: ₹<span id="totalAmount">0</span>
-        </div>
+      <div id="totalAmountBox" class="total-amount-box">
+        Total Amount: ₹<span id="totalAmount">0</span>
       </div>
 
       <button id="downloadPDF" class="export-btn">Export as PDF</button>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="script.js"></script>
   </body>
 </html>

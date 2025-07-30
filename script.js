@@ -175,31 +175,84 @@ const matchesAmount = (() => {
 document.getElementById("loadDataBtn").addEventListener("click", applyFilters);
 
 document.getElementById("downloadPDF").addEventListener("click", function () {
-  const element = document.getElementById("exportContent");
+  const exportArea = document.getElementById("exportContent");
 
-  // Force width 100% and max width for PDF rendering
-  element.style.width = "100%";
-  element.style.maxWidth = "none";
+  // Create a deep clone to preserve content
+  const clone = exportArea.cloneNode(true);
+
+  // Check if table has rows — otherwise cancel
+  const rows = clone.querySelectorAll("tbody tr");
+  if (!rows.length) {
+    alert("⚠️ No data to export! Please load or filter data first.");
+    return;
+  }
+
+  // Force visual style
+  clone.style.width = "100%";
+  clone.style.maxWidth = "100%";
+  clone.style.padding = "20px";
+  clone.style.background = "#fff";
+  clone.style.color = "#000";
+  clone.style.fontSize = "12px";
+
+  const table = clone.querySelector("table");
+  if (table) {
+    table.style.width = "100%";
+    table.style.borderCollapse = "collapse";
+
+    table.querySelectorAll("th, td").forEach(cell => {
+      cell.style.wordBreak = "break-word";
+      cell.style.whiteSpace = "normal";
+      cell.style.padding = "6px 8px";
+      cell.style.border = "1px solid #ccc";
+      cell.style.fontSize = "11px";
+      cell.style.textAlign = "left";
+      cell.style.background = "#fff"; // force white background
+      cell.style.color = "#000";      // ensure dark text
+    });
+  }
+
+  // Append total amount to bottom
+  const totalBox = document.getElementById("totalAmountBox").cloneNode(true);
+  totalBox.style.background = "#fef08a";
+  totalBox.style.color = "#92400e";
+  totalBox.style.fontWeight = "bold";
+  totalBox.style.fontSize = "14px";
+  totalBox.style.textAlign = "center";
+  totalBox.style.marginTop = "20px";
+  totalBox.style.padding = "10px";
+  totalBox.style.borderRadius = "10px";
+  clone.appendChild(totalBox);
+
+  // Create a temp container
+  const tempContainer = document.createElement("div");
+  tempContainer.style.position = "absolute";
+  tempContainer.style.left = "-9999px";
+  tempContainer.appendChild(clone);
+  document.body.appendChild(tempContainer);
 
   const opt = {
-    margin: [10, 10, 10, 10], // small margins
-    filename: "filtered_data.pdf",
+    margin: 10,
+    filename: "budget-catcher-data.pdf",
     image: { type: "jpeg", quality: 0.98 },
     html2canvas: {
-      scale: 2, // higher quality render
+      scale: 2,
       scrollY: 0,
-      windowWidth: 2000, // balances between fit and wrapping
     },
     jsPDF: {
       unit: "mm",
-      format: [330, 210], // custom wide size (landscape)
-      orientation: "landscape",
+      format: "a4",
+      orientation: "portrait",
     },
     pagebreak: { mode: ["avoid-all", "css", "legacy"] },
   };
 
-  html2pdf().set(opt).from(element).save();
+  html2pdf().set(opt).from(clone).save().then(() => {
+    document.body.removeChild(tempContainer);
+  });
 });
+
+
 
 function populateDropdowns(data) {
   const villages = new Set();
