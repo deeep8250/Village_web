@@ -1,11 +1,15 @@
+let signedInEmail = "";
+
 const scriptURL =
   "https://script.google.com/macros/s/AKfycbzgOsJigva1aA5npQg_4GiqNA0D1i0VjXCYgEtkTucYemzZ-YL_Z0P3hd4ikFEaYKqg/exec";
 
 function handleCredentialResponse(response) {
   const data = jwt_decode(response.credential);
-  document.getElementById("submittedBy").value = data.email;
+  signedInEmail = data.email;
+  document.getElementById("submittedBy").value = signedInEmail;
   document.getElementById("googleSignIn").style.display = "none";
 }
+
 
 window.onload = function () {
   google.accounts.id.initialize({
@@ -22,11 +26,18 @@ window.onload = function () {
 
   fetchData();
 };
-
 document
   .getElementById("donationForm")
   .addEventListener("submit", async function (e) {
     e.preventDefault();
+
+    if (!signedInEmail) {
+      alert("⚠️ Please sign in with Google before submitting.");
+      return;
+    }
+
+    document.getElementById("submittedBy").value = signedInEmail;
+
     const formData = new FormData(this);
     const jsonData = Object.fromEntries(formData.entries());
 
@@ -42,12 +53,12 @@ document
       const resultText = await response.text();
       alert(resultText);
       this.reset();
-      document.getElementById("submittedBy").value = jsonData.submittedBy;
+      document.getElementById("submittedBy").value = signedInEmail;
       console.log(
         "Submission successful:",
         resultText,
         "submitted by:",
-        jsonData.submittedBy
+        signedInEmail
       );
       fetchData();
     } catch (err) {
@@ -55,6 +66,7 @@ document
       alert("❌ Submission failed.");
     }
   });
+
 
 // ✅ START: Filter setup (only on Load Data button)
 let allData = []; // Store all data once loaded
