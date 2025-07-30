@@ -82,33 +82,47 @@
 
       <!-- Filter Section -->
       <!-- Filter Section -->
-      <div class="search-filters">
-        <input type="text" id="searchByName" placeholder="Search by Name" />
-        <input
-          type="text"
-          id="searchByVillage"
-          placeholder="Search by Village"
-        />
-        <input type="text" id="searchByYear" placeholder="Search by Year" />
-        <input type="text" id="searchByAmount" placeholder="Search by Amount" />
-        <input type="text" id="searchByLocal" placeholder="Search by Local" />
-        <input
-          type="text"
-          id="searchByFestival"
-          placeholder="Search by Festival"
-        />
-        <input
-          type="text"
-          id="searchByRemarks"
-          placeholder="Search by Remarks"
-        />
-        <input
-          type="text"
-          id="searchBySubmittedBy"
-          placeholder="Search by Submitted By"
-        />
-        <button id="loadDataBtn">Load Data</button>
-      </div>
+  <!-- Filter Section -->
+<div class="search-filters">
+  <input type="text" id="searchByName" placeholder="Search by Name" />
+<select id="searchByAmountRange">
+  <option value="">Select Amount Range</option>
+  <option value="10-100">₹10 - ₹100</option>
+  <option value="100-500">₹100 - ₹500</option>
+  <option value="500-1000">₹500 - ₹1000</option>
+  <option value="1000-2000">₹1000 - ₹2000</option>
+  <option value="2000-5000">₹2000 - ₹5000</option>
+  <option value="5000-10000">₹5000 - ₹10000</option>
+<option value="10000+">₹10000+</option>
+
+</select>
+
+<select id="searchByVillage">
+  <option value="">Select Village</option>
+</select>
+
+<select id="searchByYear">
+  <option value="">Select Year</option>
+</select>
+
+<select id="searchByLocal">
+  <option value="">Select Local</option>
+</select>
+
+<select id="searchByFestival">
+  <option value="">Select Festival</option>
+</select>
+
+
+  <input
+    type="text"
+    id="searchBySubmittedBy"
+    placeholder="Search by Submitted By"
+  />
+
+  <button id="loadDataBtn">Load Data</button>
+</div>
+
 
       <!-- Table -->
       <!-- Wrap content to export -->
@@ -124,8 +138,7 @@
               <col style="width: 100px" />
               <col style="width: 100px" />
               <col style="width: 60px" />
-             <col style="min-width: 180px; word-wrap: break-word;" />
-
+              <col style="min-width: 180px; word-wrap: break-word" />
             </colgroup>
             <thead>
               <tr id="tableHeader">
@@ -154,11 +167,5 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <script src="script.js"></script>
-
-
-    
-
-
-
   </body>
 </html>
